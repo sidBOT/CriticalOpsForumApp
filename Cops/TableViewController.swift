@@ -12,6 +12,7 @@ class TableViewController: UITableViewController {
     var barTitle: String!
     var UID: String!
     var email: String!
+    let imagePicker = UIImagePickerController()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = barTitle
@@ -26,6 +27,44 @@ class TableViewController: UITableViewController {
         }
     }
 
+    @IBAction func addButtonAction(_ sender: UIBarButtonItem) {
+        let alert = UIAlertController(title: "Add", message: "Add", preferredStyle: .alert)
+        alert.addTextField { (field:UITextField) in
+            field.placeholder = "Enter description"
+        }
+        alert.addTextField { (field:UITextField) in
+            field.placeholder = "Enter Kill-death ratio"
+        }
+        
+        let cameraRollAction = UIAlertAction(title: "Camera Roll", style: .default) { (action) in
+            //self.imagePicker.delegate = self
+            self.imagePicker.sourceType = UIImagePickerControllerSourceType.savedPhotosAlbum;
+            self.imagePicker.allowsEditing = false
+            self.present(self.imagePicker, animated: true, completion: nil)
+        }
+        alert.addAction(cameraRollAction)
+        
+        let takePictureAction = UIAlertAction(title: "Take a picture", style: .default) { (action) in
+            self.imagePicker.allowsEditing = false
+            self.imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            self.imagePicker.cameraCaptureMode = .photo
+            self.imagePicker.modalPresentationStyle = .fullScreen
+            self.present(self.imagePicker,
+                                       animated: true,
+                                       completion: nil)
+        }
+        alert.addAction(takePictureAction)
+        
+        let doneAction = UIAlertAction(title: "Done", style: .default) { (action) in
+        }
+        alert.addAction(doneAction)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+        }
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true) {
+        }
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
